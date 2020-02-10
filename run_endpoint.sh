@@ -16,6 +16,9 @@ if [ -n "${TESTCASE}" ]; then
             ;;
         "http3")
             ;;
+        "multiconnect")
+            CLIENT_PARAMS="--legacy-http"
+            ;;
         "resumption")
             CLIENT_PARAMS="--legacy-http --session-ticket session.ticket"
             ;;
@@ -39,29 +42,37 @@ else
     REQUESTS="https://server/1000000"
 fi
 
-if [ "$ROLE" = "client" ]; then
-    # Wait for the simulator to start up.
-    /wait-for-it.sh sim:57832 -s -t 30
-    echo "Starting client"
-    if [ "$TESTCASE" = "resumption" ]; then
-        arr=($REQUESTS)
-        FIRST_REQUEST=${arr[0]}
-        REQUESTS=${arr[@]:1}
-        python3 examples/http3_client.py \
-            --insecure \
-            --output-dir /downloads \
-            --secrets-log /logs/ssl.log \
-            --verbose \
-            $CLIENT_PARAMS \
-            $FIRST_REQUEST 2>> /logs/stderr.log
-    fi
+run_client() {
     python3 examples/http3_client.py \
         --insecure \
         --output-dir /downloads \
         --secrets-log /logs/ssl.log \
         --verbose \
         $CLIENT_PARAMS \
-        $REQUESTS 2>> /logs/stderr.log
+        $@ 2>> /logs/stderr.log
+}
+
+if [ "$ROLE" = "client" ]; then
+    # Wait for the simulator to start up.
+    /wait-for-it.sh sim:57832 -s -t 30
+
+    echo "Starting client"
+    case "${TESTCASE}" in
+    "multiconnect")
+        for req in $REQUESTS; do
+            echo $req
+            run_client $req
+        done
+        ;;
+    "resumption")
+        arr=($REQUESTS)
+        run_client ${arr[0]}
+        run_client ${arr[@]:1}
+        ;;
+    *)
+        run_client $REQUESTS
+        ;;
+    esac
 elif [ "$ROLE" = "server" ]; then
     echo "Starting server"
     python3 examples/http3_server.py \
