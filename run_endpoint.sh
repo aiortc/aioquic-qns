@@ -24,6 +24,10 @@ if [ -n "${TESTCASE}" ]; then
             exit 127
             ;;
     esac
+
+    if [ "$ROLE" = "server" ]; then
+        export STATIC_ROOT=/www
+    fi
 else
     # network simulator
     REQUESTS="https://server/1000000"
