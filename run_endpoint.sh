@@ -37,12 +37,16 @@ if [ "$ROLE" = "client" ]; then
     # Wait for the simulator to start up.
     /wait-for-it.sh sim:57832 -s -t 30
     echo "Starting client"
-    python3 examples/http3_client.py \
-        --insecure \
-        --secrets-log /logs/ssl.log \
-        --verbose \
-        $CLIENT_PARAMS \
-        $REQUESTS
+    for req in $REQUESTS; do
+        file=$(echo $req | perl -F'/' -an -e 'print $F[-1]')
+        python3 examples/http3_client.py \
+            --insecure \
+            --output /downloads/$file \
+            --secrets-log /logs/ssl.log \
+            --verbose \
+            $CLIENT_PARAMS \
+            $req
+    done
 elif [ "$ROLE" = "server" ]; then
     echo "Starting server"
     python3 examples/http3_server.py \
