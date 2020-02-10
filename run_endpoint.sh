@@ -16,6 +16,9 @@ if [ -n "${TESTCASE}" ]; then
             ;;
         "http3")
             ;;
+        "transfer")
+            CLIENT_PARAMS="--legacy-http --max-data 262144 --max-stream-data 262144"
+            ;;
         "retry")
             CLIENT_PARAMS="--legacy-http"
             SERVER_PARAMS="--stateless-retry"
