@@ -45,7 +45,7 @@ if [ "$ROLE" = "client" ]; then
             --secrets-log /logs/ssl.log \
             --verbose \
             $CLIENT_PARAMS \
-            $req
+            $req 2> /logs/stderr.log
     done
 elif [ "$ROLE" = "server" ]; then
     echo "Starting server"
@@ -55,5 +55,5 @@ elif [ "$ROLE" = "server" ]; then
         --private-key tests/ssl_key.pem \
         --secrets-log /logs/ssl.log \
         --verbose \
-        $SERVER_PARAMS
+        $SERVER_PARAMS 2> /logs/stderr.log
 fi
