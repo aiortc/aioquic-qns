@@ -8,9 +8,13 @@
 # - SERVER_PARAMS contains user-supplied command line parameters
 # - CLIENT_PARAMS contains user-supplied command line parameters
 
-if [ -n "${TESTCASE}" ]; then
+if [ -z "$SSLKEYLOGFILE" ]; then
+    SSLKEYLOGFILE=/logs/keys.log
+fi
+
+if [ -n "$TESTCASE" ]; then
     # interop runner
-    case "${TESTCASE}" in
+    case "$TESTCASE" in
         "handshake")
             CLIENT_PARAMS="--legacy-http"
             ;;
@@ -46,7 +50,7 @@ run_client() {
     python3 examples/http3_client.py \
         --insecure \
         --output-dir /downloads \
-        --secrets-log /logs/ssl.log \
+        --secrets-log $SSLKEYLOGFILE \
         --verbose \
         $CLIENT_PARAMS \
         $@ 2>> /logs/stderr.log
@@ -57,7 +61,7 @@ if [ "$ROLE" = "client" ]; then
     /wait-for-it.sh sim:57832 -s -t 30
 
     echo "Starting client"
-    case "${TESTCASE}" in
+    case "$TESTCASE" in
     "multiconnect")
         for req in $REQUESTS; do
             echo $req
@@ -79,7 +83,7 @@ elif [ "$ROLE" = "server" ]; then
         --certificate tests/ssl_cert.pem \
         --port 443 \
         --private-key tests/ssl_key.pem \
-        --secrets-log /logs/ssl.log \
+        --secrets-log $SSLKEYLOGFILE \
         --verbose \
         $SERVER_PARAMS 2>> /logs/stderr.log
 fi
