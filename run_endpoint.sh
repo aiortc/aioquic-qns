@@ -8,8 +8,9 @@
 # - SERVER_PARAMS contains user-supplied command line parameters
 # - CLIENT_PARAMS contains user-supplied command line parameters
 
-if [ -z "$SSLKEYLOGFILE" ]; then
-    SSLKEYLOGFILE=/logs/keys.log
+LOG_PARAMS=""
+if [ -n "$SSLKEYLOGFILE" ]; then
+    LOG_PARAMS="--secrets-log $SSLKEYLOGFILE"
 fi
 
 if [ -n "$TESTCASE" ]; then
@@ -50,8 +51,8 @@ run_client() {
     python3 examples/http3_client.py \
         --insecure \
         --output-dir /downloads \
-        --secrets-log $SSLKEYLOGFILE \
         --verbose \
+        $LOG_PARAMS \
         $CLIENT_PARAMS \
         $@ 2>> /logs/stderr.log
 }
@@ -83,7 +84,7 @@ elif [ "$ROLE" = "server" ]; then
         --certificate tests/ssl_cert.pem \
         --port 443 \
         --private-key tests/ssl_key.pem \
-        --secrets-log $SSLKEYLOGFILE \
         --verbose \
+        $LOG_PARAMS \
         $SERVER_PARAMS 2>> /logs/stderr.log
 fi
