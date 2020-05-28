@@ -16,6 +16,9 @@ fi
 if [ -n "$TESTCASE" ]; then
     # interop runner
     case "$TESTCASE" in
+        "chacha20")
+            CLIENT_PARAMS="--legacy-http --cipher-suites CHACHA20_POLY1305_SHA256"
+            ;;
         "handshake")
             CLIENT_PARAMS="--legacy-http"
             ;;
@@ -24,7 +27,7 @@ if [ -n "$TESTCASE" ]; then
         "multiconnect")
             CLIENT_PARAMS="--legacy-http"
             ;;
-        "resumption")
+        "resumption"|"zerortt")
             CLIENT_PARAMS="--legacy-http --session-ticket session.ticket"
             ;;
         "retry")
@@ -69,7 +72,7 @@ if [ "$ROLE" = "client" ]; then
             run_client $req
         done
         ;;
-    "resumption")
+    "resumption"|"zerortt")
         arr=($REQUESTS)
         run_client ${arr[0]}
         run_client ${arr[@]:1}
