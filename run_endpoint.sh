@@ -9,8 +9,11 @@
 # - CLIENT_PARAMS contains user-supplied command line parameters
 
 LOG_PARAMS=""
+if [ -n "$QLOGDIR" ]; then
+    LOG_PARAMS="$LOG_PARAMS --quic-log $QLOGDIR"
+fi
 if [ -n "$SSLKEYLOGFILE" ]; then
-    LOG_PARAMS="--secrets-log $SSLKEYLOGFILE"
+    LOG_PARAMS="$LOG_PARAMS --secrets-log $SSLKEYLOGFILE"
 fi
 
 if [ -n "$TESTCASE" ]; then
