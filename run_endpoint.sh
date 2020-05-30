@@ -30,7 +30,7 @@ if [ -n "$TESTCASE" ]; then
         "multiconnect")
             CLIENT_PARAMS="--legacy-http"
             ;;
-        "resumption"|"zerortt")
+        "resumption")
             CLIENT_PARAMS="--legacy-http --session-ticket session.ticket"
             ;;
         "retry")
@@ -39,6 +39,9 @@ if [ -n "$TESTCASE" ]; then
             ;;
         "transfer")
             CLIENT_PARAMS="--legacy-http --max-data 262144 --max-stream-data 262144"
+            ;;
+        "zerortt")
+            CLIENT_PARAMS="--legacy-http --session-ticket session.ticket --zero-rtt"
             ;;
         *)
             exit 127
