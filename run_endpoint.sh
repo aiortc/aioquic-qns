@@ -90,9 +90,9 @@ if [ "$ROLE" = "client" ]; then
 elif [ "$ROLE" = "server" ]; then
     echo "Starting server"
     python3 examples/http3_server.py \
-        --certificate tests/ssl_cert.pem \
+        --certificate /certs/cert.pem \
         --port 443 \
-        --private-key tests/ssl_key.pem \
+        --private-key /certs/priv.key \
         --verbose \
         $LOG_PARAMS \
         $SERVER_PARAMS 2>> /logs/stderr.log
