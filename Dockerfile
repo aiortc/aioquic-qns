@@ -3,7 +3,7 @@ FROM martenseemann/quic-network-simulator-endpoint:latest
 RUN apt-get update
 RUN apt-get install -y git-core libssl-dev python3-dev python3-pip
 RUN pip3 install aiofiles asgiref httpbin starlette wsproto
-RUN git clone https://github.com/aiortc/aioquic && cd /aioquic && git checkout 0be1b33d8e36cf30369e71cbdeeb3cdee8f3e007
+RUN git clone https://github.com/aiortc/aioquic && cd /aioquic && git checkout fbec55ee689e4ee2268ebd6f6e8b91c026f8c400
 WORKDIR /aioquic
 RUN pip3 install -e .
 
