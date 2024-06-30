@@ -40,6 +40,9 @@ if [ -n "$TESTCASE" ]; then
         "transfer")
             CLIENT_PARAMS="--legacy-http --max-data 262144 --max-stream-data 262144"
             ;;
+        "v2")
+            CLIENT_PARAMS="--legacy-http --negotiate-v2"
+            ;;
         "zerortt")
             CLIENT_PARAMS="--legacy-http --session-ticket session.ticket --zero-rtt"
             ;;
