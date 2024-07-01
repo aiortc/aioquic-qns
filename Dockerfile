@@ -2,7 +2,7 @@ FROM martenseemann/quic-network-simulator-endpoint:latest
 
 RUN apt-get update
 RUN apt-get install -y git-core libssl-dev python3-dev python3-pip
-RUN git clone https://github.com/aiortc/aioquic && cd /aioquic && git checkout 79a8caf0044790c2a1764be8cad5835f9f9fbe76
+RUN git clone https://github.com/aiortc/aioquic && cd /aioquic && git checkout afe5525822f71e277e534b08f198ec8724a7ad59
 WORKDIR /aioquic
 RUN pip3 install . jinja2 starlette wsproto
 
