@@ -60,7 +60,7 @@ else
 fi
 
 run_client() {
-    python3 examples/http3_client.py \
+    env/bin/python examples/http3_client.py \
         --insecure \
         --output-dir /downloads \
         --verbose \
@@ -92,7 +92,7 @@ if [ "$ROLE" = "client" ]; then
     esac
 elif [ "$ROLE" = "server" ]; then
     echo "Starting server"
-    python3 examples/http3_server.py \
+    env/bin/python examples/http3_server.py \
         --certificate /certs/cert.pem \
         --port 443 \
         --private-key /certs/priv.key \
