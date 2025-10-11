@@ -27,6 +27,9 @@ if [ -n "$TESTCASE" ]; then
             ;;
         "http3")
             ;;
+        "keyupdate")
+            CLIENT_PARAMS="--key-update"
+            ;;
         "multiconnect")
             CLIENT_PARAMS="--legacy-http"
             ;;
