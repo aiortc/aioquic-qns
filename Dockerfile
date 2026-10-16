@@ -2,7 +2,7 @@ FROM martenseemann/quic-network-simulator-endpoint:latest
 
 RUN apt-get update
 RUN apt-get install -y git-core python3-dev python3-pip python3-venv
-RUN git clone https://github.com/aiortc/aioquic && cd /aioquic && git checkout 4b1c2c93776bcb94887edb63f97ce4be5bc399ba
+RUN git clone https://github.com/aiortc/aioquic && cd /aioquic && git checkout 1.7.0
 WORKDIR /aioquic
 RUN python3 -m venv env
 RUN env/bin/pip install . jinja2 starlette wsproto
