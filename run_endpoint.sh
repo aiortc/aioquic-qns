@@ -20,34 +20,42 @@ if [ -n "$TESTCASE" ]; then
     # interop runner
     case "$TESTCASE" in
         "chacha20")
-            CLIENT_PARAMS="--legacy-http --cipher-suites CHACHA20_POLY1305_SHA256"
+            CLIENT_PARAMS="--legacy-http --cipher-suites TLS_CHACHA20_POLY1305_SHA256"
+            SERVER_PARAMS="--legacy-http"
             ;;
         "handshake")
             CLIENT_PARAMS="--legacy-http"
+            SERVER_PARAMS="--legacy-http"
             ;;
         "http3")
             ;;
         "keyupdate")
             CLIENT_PARAMS="--legacy-http --key-update"
+            SERVER_PARAMS="--legacy-http"
             ;;
         "multiconnect")
             CLIENT_PARAMS="--legacy-http"
+            SERVER_PARAMS="--legacy-http"
             ;;
         "resumption")
             CLIENT_PARAMS="--legacy-http --session-ticket session.ticket"
+            SERVER_PARAMS="--legacy-http"
             ;;
         "retry")
             CLIENT_PARAMS="--legacy-http"
-            SERVER_PARAMS="--retry"
+            SERVER_PARAMS="--legacy-http --retry"
             ;;
         "transfer")
             CLIENT_PARAMS="--legacy-http --max-data 262144 --max-stream-data 262144"
+            SERVER_PARAMS="--legacy-http"
             ;;
         "v2")
             CLIENT_PARAMS="--legacy-http --negotiate-v2"
+            SERVER_PARAMS="--legacy-http"
             ;;
         "zerortt")
             CLIENT_PARAMS="--legacy-http --session-ticket session.ticket --zero-rtt"
+            SERVER_PARAMS="--legacy-http"
             ;;
         *)
             exit 127
